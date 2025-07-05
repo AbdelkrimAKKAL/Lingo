@@ -2,6 +2,7 @@ import { Header } from "./header";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
+import db from '@/lib/db';
 
 const LearnPage = () =>{
     return (
