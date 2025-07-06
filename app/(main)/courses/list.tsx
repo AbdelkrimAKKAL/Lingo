@@ -5,6 +5,7 @@ import { Card } from './card';
 import { useRouter } from 'next/navigation';
 import { useTransition } from 'react';
 import { upsertUserProgress } from '@/actions/user-progress';
+import { toast } from 'sonner';
 
 
 type Props = {
@@ -24,9 +25,15 @@ export const List = ({ courses, activeCourseId }: Props) => {
     }
 
     startTransition(() => {
-      upsertUserProgress(id);
-      router.push('/learn');
+      upsertUserProgress(id)
+        .then(() => {
+          router.push('/learn'); // ✅ only runs if update succeeded
+        })
+        .catch(() => {
+          toast.error("Something went wrong"); // ✅ show error if failed
+        });
     });
+    
   }
 
   return (
@@ -39,7 +46,7 @@ export const List = ({ courses, activeCourseId }: Props) => {
           course={course.title}
           imageSrc={course.image_src}
           onClick={onClick}
-          disabled={false}
+          disabled={pending}
           isActive={course.id === activeCourseId}
         />
       ))}
